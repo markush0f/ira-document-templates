@@ -1,0 +1,116 @@
+---
+import { getCollection } from "astro:content";
+import X from "@lucide/astro/icons/x";
+
+const docs = await getCollection("docs");
+
+// Group docs by category
+const categories = [...new Set(docs.map((doc) => doc.data.category))].sort(
+  (a, b) => {
+    // Sort Overview first
+    if (a === "Overview") return -1;
+    if (b === "Overview") return 1;
+    return a.localeCompare(b);
+  },
+);
+
+const groupedDocs = categories.map((category) => ({
+  name: category,
+  items: docs
+    .filter((doc) => doc.data.category === category)
+    .sort((a, b) => a.data.order - b.data.order),
+}));
+
+const { activeSlug } = Astro.props;
+---
+
+<!-- Sidebar for Desktop and Mobile -->
+<aside
+  id="sidebar"
+  class="w-72 fixed inset-y-0 left-0 bg-sidebar-bg border-r border-sidebar-border z-50 transition-transform duration-300 md:translate-x-0 -translate-x-full overflow-hidden flex flex-col"
+>
+  <div class="p-8 h-full flex flex-col">
+    <!-- Meta Info -->
+    <div class="mb-10 px-2 text-[12px] text-sidebar-text opacity-70">
+      <p>Last indexed: 22 January 2026 (bf7c3a)</p>
+    </div>
+
+    <div class="flex-1 overflow-y-auto custom-scrollbar -mr-4 pr-4">
+      {
+        groupedDocs.map((category) => (
+          <div class="mb-6">
+            <h3 class="px-3 mb-2 text-[13px] font-normal text-sidebar-text opacity-90">
+              {category.name}
+            </h3>
+            <nav class="space-y-0.5 ml-3">
+              {category.items.map((doc) => (
+                <a
+                  href={`/docs/${doc.id}`}
+                  data-astro-prefetch
+                  class={`block px-4 py-1.5 rounded-md text-[13.5px] transition-all duration-150 ${
+                    activeSlug === doc.id
+                      ? "bg-sidebar-bg-active text-sidebar-text-active font-medium shadow-sm"
+                      : "text-sidebar-text hover:text-sidebar-text-active hover:bg-sidebar-bg-active/40"
+                  }`}
+                >
+                  {doc.data.title}
+                </a>
+              ))}
+            </nav>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Mobile Close button (hidden on MD) -->
+    <button
+      id="sidebar-close"
+      class="md:hidden absolute top-6 right-6 p-2 text-sidebar-text hover:text-sidebar-text-active transition-colors"
+    >
+      <X size={20} />
+    </button>
+  </div>
+</aside>
+
+<!-- Mobile Overlay -->
+<div
+  id="sidebar-overlay"
+  class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden md:hidden transition-opacity duration-300"
+>
+</div>
+
+<script>
+  function setupSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("mobile-menu-toggle");
+    const close = document.getElementById("sidebar-close");
+    const overlay = document.getElementById("sidebar-overlay");
+
+    if (!sidebar || !toggle || !overlay) return;
+
+    const openMenu = () => {
+      sidebar.classList.remove("-translate-x-full");
+      overlay.classList.remove("hidden");
+      setTimeout(() => overlay.classList.add("opacity-100"), 10);
+      document.body.classList.add("overflow-hidden");
+    };
+
+    const closeMenu = () => {
+      sidebar.classList.add("-translate-x-full");
+      overlay.classList.remove("opacity-100");
+      setTimeout(() => {
+        if (!overlay.classList.contains("opacity-100")) {
+          overlay.classList.add("hidden");
+        }
+      }, 300);
+      document.body.classList.remove("overflow-hidden");
+    };
+
+    toggle.addEventListener("click", openMenu);
+    close?.addEventListener("click", closeMenu);
+    overlay.addEventListener("click", closeMenu);
+  }
+
+  setupSidebar();
+  document.addEventListener("astro:after-swap", setupSidebar);
+</script>

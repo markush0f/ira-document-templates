@@ -1,0 +1,29 @@
+{
+  "title": "Proyectos",
+  "description": "Endpoints para la gestión de proyectos de desarrollo.",
+  "category": "Backend API Reference",
+  "order": 12,
+  "content": "# Gestión de Proyectos\n\nBase URL: `https://api.ejemplo.com/v1/projects`\n\nEndpoints para la creación y administración de proyectos en el espacio de trabajo.",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/",
+      "description": "Lista todos los proyectos a los que el usuario tiene acceso."
+    },
+    {
+      "method": "POST",
+      "path": "/",
+      "description": "Crea un nuevo proyecto en el espacio de trabajo actual."
+    },
+    {
+      "method": "GET",
+      "path": "/{id}",
+      "description": "Obtiene información detallada sobre un proyecto específico."
+    },
+    {
+      "method": "DELETE",
+      "path": "/{id}",
+      "description": "Elimina de forma permanente un proyecto y todos sus recursos asociados."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "title": "Introducción",
+  "description": "Bienvenido a la documentación del proyecto.",
+  "category": "Overview",
+  "order": 1,
+  "content": "# Introducción\n\nEsta es una documentación minimalista construida con **Astro**, **Tailwind CSS** y **TypeScript**.\n\n## Objetivos del Proyecto\n\nEl objetivo principal es proporcionar una base clara y técnica para el desarrollo.\n\n- **Claridad**: Información directa y fácil de encontrar.\n- **Rendimiento**: Carga instantánea gracias a Astro.\n- **Minimalismo**: Sin distracciones innecesarias.\n\n### ¿Cómo usar esta guía?\n\nExplora las secciones utilizando la barra lateral de la izquierda. Cada sección cubre un aspecto específico del sistema."
+}

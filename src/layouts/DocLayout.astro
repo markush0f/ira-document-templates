@@ -1,0 +1,86 @@
+---
+import { ViewTransitions } from "astro:transitions";
+import Sidebar from "../components/Sidebar.astro";
+import ThemeToggle from "../components/ThemeToggle";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  slug?: string;
+}
+
+const { title, slug } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <ViewTransitions />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Technical Documentation</title>
+    <meta
+      name="description"
+      content="Technical documentation for the project"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script is:inline>
+      const applyTheme = () => {
+        const theme = (() => {
+          if (
+            typeof localStorage !== "undefined" &&
+            localStorage.getItem("theme")
+          ) {
+            return localStorage.getItem("theme");
+          }
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        })();
+        const isDark = theme === "dark";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+      };
+
+      applyTheme();
+      document.addEventListener("astro:after-swap", applyTheme);
+    </script>
+    <style is:inline>
+      :root {
+        --bg-hex: #ffffff;
+      }
+      :root.dark {
+        --bg-hex: #020617;
+      }
+      html {
+        background-color: var(--bg-hex) !important;
+      }
+    </style>
+  </head>
+  <body class="bg-theme-main min-h-screen">
+    <div class="min-h-screen">
+      <Sidebar activeSlug={slug} transition:persist />
+
+      <div class="md:ml-72 relative min-h-screen">
+        <!-- Floating Theme Toggle Container (Persisted) -->
+        <div
+          class="fixed md:absolute top-4 md:top-6 right-4 md:right-8 z-[60]"
+          transition:persist="theme-toggle"
+        >
+          <ThemeToggle client:load />
+        </div>
+
+        <main class="p-6 md:p-12 lg:p-20 pt-20 md:pt-12">
+          <div class="max-w-3xl mx-auto">
+            <slot />
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

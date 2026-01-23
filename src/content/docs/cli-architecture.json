@@ -1,0 +1,7 @@
+{
+  "title": "CLI Architecture",
+  "description": "Diseño de la interfaz de línea de comandos para automation y gestión.",
+  "category": "Architecture",
+  "order": 22,
+  "content": "# Arquitectura CLI\n\nNuestra herramienta de CLI está diseñada para proporcionar una experiencia de desarrollador fluida y potente a través de la terminal.\n\n## Stack Técnico\n\n- **Commander.js**: Para el parsing de comandos y argumentos.\n- **Inquirer**: Para interfaces interactivas y formularios de terminal.\n- **Chalk/Clui**: Para el formateo visual y spinners de progreso.\n\n## Flujo de Ejecución\n\n1. **Validación**: Comprobación de permisos y entorno.\n2. **Ejecución**: Procesamiento de la tarea solicitada.\n3. **Reporte**: Salida formateada de éxito o error con logs detallados."
+}

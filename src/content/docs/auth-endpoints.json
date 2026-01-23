@@ -1,0 +1,24 @@
+{
+  "title": "Autenticación",
+  "description": "Endpoints para el manejo de sesiones y tokens.",
+  "category": "Backend API Reference",
+  "order": 10,
+  "content": "# Autenticación\n\nBase URL: `https://api.ejemplo.com/v1/auth`\n\nTodos los endpoints requieren un token JWT en el header `Authorization` para las rutas protegidas.",
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/login",
+      "description": "Inicia sesión en el sistema y recibe un token de acceso válido por 24 horas."
+    },
+    {
+      "method": "POST",
+      "path": "/refresh",
+      "description": "Renueva el token de acceso actual utilizando un refresh token válido."
+    },
+    {
+      "method": "POST",
+      "path": "/logout",
+      "description": "Invalida el token actual y cierra la sesión del usuario."
+    }
+  ]
+}

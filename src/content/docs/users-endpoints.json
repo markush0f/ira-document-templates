@@ -1,0 +1,29 @@
+{
+  "title": "Usuarios",
+  "description": "Gestión de usuarios y perfiles.",
+  "category": "Backend API Reference",
+  "order": 11,
+  "content": "# Gestión de Usuarios\n\nBase URL: `https://api.ejemplo.com/v1/users`\n\nEndpoints para administrar las cuentas de usuario y sus perfiles.",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/",
+      "description": "Obtiene una lista paginada de todos los usuarios registrados activos."
+    },
+    {
+      "method": "GET",
+      "path": "/{id}",
+      "description": "Obtiene los detalles específicos de un usuario por su identificador único."
+    },
+    {
+      "method": "PUT",
+      "path": "/{id}",
+      "description": "Actualiza la información del perfil del usuario especificado."
+    },
+    {
+      "method": "DELETE",
+      "path": "/{id}",
+      "description": "Desactiva la cuenta de un usuario en el sistema."
+    }
+  ]
+}

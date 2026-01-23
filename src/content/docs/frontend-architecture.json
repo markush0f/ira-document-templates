@@ -1,0 +1,7 @@
+{
+  "title": "Frontend Architecture",
+  "description": "Explicación detallada del diseño y estructura de la capa cliente.",
+  "category": "Architecture",
+  "order": 20,
+  "content": "# Arquitectura Frontend\n\nNuestra arquitectura frontend se basa en una estructura modular y orientada a componentes, utilizando **Astro** como orquestador principal y **React** para la interactividad compleja.\n\n## Principios Core\n\n1. **Componentización**: Cada pieza de la UI es aislada y reutilizable.\n2. **Islands Architecture**: Solo hidratamos el JavaScript necesario para ahorrar recursos.\n3. **Single Source of Truth**: El estado global se maneja mediante librerías atómicas como Zustand.\n\n## Estructura de Capas\n\n- **UI Layer**: Componentes puramente visuales.\n- **Feature Layer**: Lógica de negocio específica por dominio.\n- **Data Access Layer**: Services y hooks para interactuar con la API."
+}

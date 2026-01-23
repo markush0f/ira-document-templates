@@ -1,0 +1,7 @@
+{
+  "title": "Bases Técnicas",
+  "description": "Detalles técnicos sobre el stack tecnológico.",
+  "category": "Architecture",
+  "order": 19,
+  "content": "# Bases Técnicas\n\nEste proyecto utiliza tecnologías modernas para garantizar escalabilidad y mantenibilidad.\n\n## Stack Tecnológico\n\n1. **Astro**: Framework web para contenido.\n2. **Tailwind CSS V4**: Para un diseño rápido y flexible.\n3. **TypeScript**: Para un desarrollo robusto y tipado.\n\n## Instalación\n\nPara comenzar con este proyecto, clona el repositorio y ejecuta:\n\n```bash\nnpm install\nnpm run dev\n```\n\n## Estructura de Archivos\n\n```text\n/src\n  /content\n    /docs      <- Archivos JSON\n  /layouts     <- Plantillas de página\n  /components  <- Componentes reutilizables\n  /styles      <- CSS Global\n```"
+}
