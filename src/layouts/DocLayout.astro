@@ -75,10 +75,8 @@ const { title, slug } = Astro.props;
           <ThemeToggle client:load />
         </div>
 
-        <main class="p-6 md:p-12 lg:p-20 pt-20 md:pt-12">
-          <div class="max-w-3xl mx-auto">
-            <slot />
-          </div>
+        <main class="p-6 md:p-12 lg:p-16 pt-20 md:pt-12">
+          <slot />
         </main>
       </div>
     </div>

@@ -3,7 +3,6 @@
   "description": "Diseño del modelo de datos y relaciones de la base de datos.",
   "category": "Architecture",
   "order": 23,
-  "content": "# Esquema de Base de Datos\n\nNuestra arquitectura de datos está diseñada para ser escalable, consistente y eficiente, utilizando una combinación de bases de datos relacionales y sistemas de caché.\n\n## Diagrama Interactivo de BBDD\n\nEl siguiente diagrama ha sido generado automáticamente procesando el código SQL real del proyecto. Puedes ver las relaciones y tipos de datos de forma interactiva.",
-  "sql": "CREATE TABLE users (id UUID PRIMARY KEY, username VARCHAR(50), email VARCHAR(255), password_hash TEXT, role VARCHAR(20), created_at TIMESTAMP, updated_at TIMESTAMP); CREATE TABLE workspaces (id UUID PRIMARY KEY, name VARCHAR(100), slug VARCHAR(100), owner_id UUID REFERENCES users(id), created_at TIMESTAMP); CREATE TABLE projects (id UUID PRIMARY KEY, workspace_id UUID REFERENCES workspaces(id), name VARCHAR(100), description TEXT, status VARCHAR(20), created_at TIMESTAMP, updated_at TIMESTAMP); CREATE TABLE project_members (project_id UUID REFERENCES projects(id), user_id UUID REFERENCES users(id), role VARCHAR(20), joined_at TIMESTAMP);",
+  "content": "# Esquema de Base de Datos\n\nNuestra arquitectura de datos está diseñada para ser escalable, consistente y eficiente, utilizando una combinación de bases de datos relacionales y sistemas de caché.\n\n## Diagramas de Arquitectura\n\nPróximamente se añadirán diagramas detallados de las relaciones entre entidades.",
   "endpoints": []
 }

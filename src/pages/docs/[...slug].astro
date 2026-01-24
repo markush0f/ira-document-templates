@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import DocLayout from "../../layouts/DocLayout.astro";
 import { Endpoint } from "../../components/Endpoint";
 import Mermaid from "../../components/Mermaid";
-import { SqlDiagram } from "../../components/SqlDiagram";
+
 import { marked } from "marked";
 
 export async function getStaticPaths() {
@@ -22,40 +22,36 @@ const htmlContent = data.content ? marked.parse(data.content) : "";
 ---
 
 <DocLayout title={data.title} slug={doc.id}>
-  <article class="prose">
-    {htmlContent && <div set:html={htmlContent} />}
+  <div class="max-w-6xl mx-auto">
+    <article class="prose max-w-4xl">
+      {htmlContent && <div set:html={htmlContent} />}
 
-    {
-      data.sql && (
-        <div class="not-prose">
-          <SqlDiagram client:only="react" sql={data.sql} />
-        </div>
-      )
-    }
-
-    {
-      data.diagram && !data.sql && (
-        <div class="not-prose">
-          <Mermaid client:only="react" chart={data.diagram} />
-        </div>
-      )
-    }
+      {
+        data.diagram && (
+          <div class="not-prose my-12">
+            <Mermaid client:only="react" chart={data.diagram} />
+          </div>
+        )
+      }
+    </article>
 
     {
       data.endpoints && data.endpoints.length > 0 && (
-        <div class="mt-12 space-y-8">
-          <h2 class="text-2xl font-bold mb-6 mt-14 pb-2 border-b border-main-border text-[var(--color-sidebar-text-active)]">
+        <div class="mt-24 border-t border-slate-100 dark:border-slate-800/50 pt-16">
+          <h2 class="text-3xl font-extrabold mb-10 tracking-tight text-[var(--color-sidebar-text-active)]">
             API Reference
           </h2>
-          {data.endpoints.map((endpoint) => (
-            <Endpoint
-              method={endpoint.method}
-              path={endpoint.path}
-              description={endpoint.description}
-            />
-          ))}
+          <div class="flex flex-col border border-slate-200/60 dark:border-slate-800/60 rounded-2xl overflow-hidden bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm">
+            {data.endpoints.map((endpoint) => (
+              <Endpoint
+                method={endpoint.method}
+                path={endpoint.path}
+                description={endpoint.description}
+              />
+            ))}
+          </div>
         </div>
       )
     }
-  </article>
+  </div>
 </DocLayout>

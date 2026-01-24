@@ -16,19 +16,29 @@ const methodColors = {
 
 export const Endpoint: React.FC<EndpointProps> = ({ method, path, description }) => {
     return (
-        <div className="group mb-6 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:shadow-md dark:border-slate-800 dark:bg-slate-900/50">
-            <div className="flex items-center gap-4 p-4">
-                <span className={`rounded px-2.5 py-1 text-xs font-bold uppercase tracking-wider ${methodColors[method]}`}>
+        <div className="group flex flex-col md:flex-row items-stretch border-b last:border-0 border-slate-100 dark:border-slate-800 transition-all hover:bg-slate-50/80 dark:hover:bg-blue-900/10">
+            {/* Method and Path Area */}
+            <div className="flex items-center gap-4 px-6 py-5 md:w-[40%] bg-slate-50/30 dark:bg-slate-900/20 group-hover:bg-white dark:group-hover:bg-slate-900/40 transition-colors">
+                <span className={`w-20 shrink-0 text-center py-1.5 rounded-md text-[10px] font-bold uppercase tracking-widest leading-none ${methodColors[method]} shadow-sm`}>
                     {method}
                 </span>
-                <code className="text-sm font-mono font-medium text-slate-800 dark:text-slate-200">
+                <code className="text-[14px] font-mono font-semibold text-slate-800 dark:text-blue-400 break-all">
                     {path}
                 </code>
             </div>
-            <div className="border-t border-slate-100 bg-slate-50/50 p-4 dark:border-slate-800 dark:bg-slate-900/30">
-                <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+
+            {/* Description Area */}
+            <div className="flex-1 px-8 py-5 flex items-center border-t md:border-t-0 md:border-l border-slate-100 dark:border-slate-800">
+                <p className="text-[14.5px] leading-relaxed text-slate-600 dark:text-slate-400">
                     {description}
                 </p>
+                
+                {/* Visual indicator for interactive feel */}
+                <div className="ml-auto pl-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-blue-500 transition-colors" title="Copy URL">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
     );
