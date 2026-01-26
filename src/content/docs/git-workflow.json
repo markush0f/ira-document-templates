@@ -1,0 +1,7 @@
+{
+  "title": "Git & Workflow",
+  "description": "Estándares de control de versiones y workflow de desarrollo.",
+  "category": "Development",
+  "order": 2,
+  "content": "# Git & Workflow\n\nUtilizamos Git como sistema de control de versiones. Para mantener la consistencia, seguimos una variante de Git Flow simplificada.\n\n## Estrategia de Ramas\n\nEl repositorio principal mantiene dos ramas de larga duración:\n\n- **main**: Contiene el código en producción. Solo se aceptan merges desde `develop` o ramas de `hotfix`.\n- **develop**: Branch principal para integración de nuevas funcionalidades. Aquí es donde ocurre la magia del día a día.\n\n### Ramas de Apoyo\n\n1. **feature/**: Para nuevas funcionalidades. Se crean desde `develop` y se reintegran en `develop` vía Pull Request.\n   ```bash\n   git checkout -b feature/nombre-funcionalidad\n   ```\n2. **bugfix/**: Para correcciones de errores menores detectados en `develop`.\n3. **hotfix/**: Para errores críticos en producción (`main`).\n\n## Mensajes de Commit\n\nSeguimos la convención de **Conventional Commits**:\n\n- `feat`: Nueva funcionalidad.\n- `fix`: Corrección de errores.\n- `docs`: Documentación.\n- `style`: Formato, puntos y comas faltantes, etc.\n- `refactor`: Refactorización del código.\n\n### Ejemplo\n```text\nfeat(ui): add search status indicator\n\nDetailed description of why this was needed...\n```"
+}

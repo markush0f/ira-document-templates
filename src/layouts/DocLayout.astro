@@ -1,21 +1,21 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-import Sidebar from "../components/Sidebar.astro";
-import ThemeToggle from "../components/ThemeToggle";
+import { getGroupedDocs } from "../lib/docs";
+import AppShell from "../components/AppShell";
 import "../styles/global.css";
 
 interface Props {
   title: string;
   slug?: string;
+  rawDoc?: any;
 }
 
-const { title, slug } = Astro.props;
+const { title, slug, rawDoc } = Astro.props;
+const groupedDocs = await getGroupedDocs();
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <ViewTransitions />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Technical Documentation</title>
@@ -48,37 +48,87 @@ const { title, slug } = Astro.props;
       };
 
       applyTheme();
-      document.addEventListener("astro:after-swap", applyTheme);
     </script>
     <style is:inline>
       :root {
         --bg-hex: #ffffff;
       }
       :root.dark {
-        --bg-hex: #020617;
+        --bg-hex: #0a0a0a;
       }
       html {
         background-color: var(--bg-hex) !important;
       }
     </style>
   </head>
-  <body class="bg-theme-main min-h-screen">
-    <div class="min-h-screen">
-      <Sidebar activeSlug={slug} transition:persist />
+  <body class="bg-theme-main min-h-screen selection:bg-primary/20">
+    <AppShell
+      client:only="react"
+      groupedDocs={groupedDocs}
+      activeSlug={slug}
+      rawDoc={rawDoc}
+    >
+      <slot />
+    </AppShell>
 
-      <div class="md:ml-72 relative min-h-screen">
-        <!-- Floating Theme Toggle Container (Persisted) -->
-        <div
-          class="fixed md:absolute top-4 md:top-6 right-4 md:right-8 z-[60]"
-          transition:persist="theme-toggle"
-        >
-          <ThemeToggle client:load />
-        </div>
+    <script>
+      // Add Copy Button to Pre blocks
+      function setupCopyButtons() {
+        const preBlocks = document.querySelectorAll("article pre");
 
-        <main class="p-6 md:p-12 lg:p-16 pt-20 md:pt-12">
-          <slot />
-        </main>
-      </div>
-    </div>
+        preBlocks.forEach((el) => {
+          const pre = el as HTMLElement;
+          if (pre.parentElement?.classList.contains("code-block-wrapper"))
+            return;
+
+          // Create wrapper
+          const wrapper = document.createElement("div");
+          wrapper.className = "code-block-wrapper relative group my-8";
+          pre.parentNode?.insertBefore(wrapper, pre);
+          wrapper.appendChild(pre);
+
+          // Reset pre margins since wrapper handles them
+          pre.style.margin = "0";
+
+          const button = document.createElement("button");
+          button.className =
+            "copy-button absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 text-white/50 hover:text-white transition-all border border-white/10 opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 backdrop-blur-sm";
+          button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          `;
+
+          wrapper.appendChild(button);
+
+          button.addEventListener("click", async () => {
+            const code = pre.querySelector("code");
+            if (!code) return;
+
+            await navigator.clipboard.writeText(code.innerText);
+
+            button.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            `;
+            button.classList.add(
+              "text-green-400",
+              "border-green-400/30",
+              "bg-green-400/10",
+            );
+
+            setTimeout(() => {
+              button.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              `;
+              button.classList.remove(
+                "text-green-400",
+                "border-green-400/30",
+                "bg-green-400/10",
+              );
+            }, 2000);
+          });
+        });
+      }
+
+      setupCopyButtons();
+    </script>
   </body>
 </html>

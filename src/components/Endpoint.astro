@@ -1,0 +1,95 @@
+---
+interface Props {
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  path: string;
+  description: string;
+}
+
+const { method, path, description } = Astro.props;
+
+const methodColors = {
+  GET: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+  POST: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
+  PUT: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+  DELETE: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+  PATCH:
+    "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
+};
+---
+
+<div
+  class="group flex flex-col md:flex-row items-stretch border-b last:border-0 border-main-border transition-all hover:bg-main-bg-hover"
+>
+  {/* Method and Path Area */}
+  <div
+    class="flex items-center gap-4 px-6 py-5 md:w-[40%] bg-main-bg/30 group-hover:bg-main-bg/50 transition-colors"
+  >
+    <span
+      class={`w-20 shrink-0 text-center py-1.5 rounded-md text-[10px] font-bold uppercase tracking-widest leading-none ${methodColors[method]} shadow-sm`}
+    >
+      {method}
+    </span>
+    <code
+      class="text-[14px] font-mono font-semibold text-sidebar-text-active break-all"
+    >
+      {path}
+    </code>
+  </div>
+
+  {/* Description Area */}
+  <div
+    class="flex-1 px-8 py-5 flex items-center border-t md:border-t-0 md:border-l border-main-border"
+  >
+    <p class="text-[14.5px] leading-relaxed text-main-muted">
+      {description}
+    </p>
+
+    {/* Visual indicator for interactive feel */}
+    <div
+      class="ml-auto pl-4 opacity-0 group-hover:opacity-100 transition-opacity"
+    >
+      <button
+        class="copy-endpoint-path p-2 rounded-lg bg-main-bg-hover text-main-muted hover:text-primary transition-colors"
+        title="Copy URL"
+        data-path={path}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path
+            d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+          ></path></svg
+        >
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupEndpointCopy() {
+    const buttons = document.querySelectorAll(".copy-endpoint-path");
+    buttons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        const path = button.getAttribute("data-path");
+        if (path) {
+          await navigator.clipboard.writeText(path);
+          const originalHTML = button.innerHTML;
+          button.innerHTML =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+          setTimeout(() => {
+            button.innerHTML = originalHTML;
+          }, 2000);
+        }
+      });
+    });
+  }
+  setupEndpointCopy();
+  document.addEventListener("astro:after-swap", setupEndpointCopy);
+</script>

@@ -7,29 +7,29 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
   /* Design Tokens from reference image */
-  --color-sidebar-bg: #ffffff;
+  --color-sidebar-bg: rgba(255, 255, 255, 0.8);
   --color-sidebar-border: #e2e8f0;
   --color-sidebar-text: #64748b;
   --color-sidebar-text-active: #0f172a;
-  --color-sidebar-bg-active: #f1f5f9;
+  --color-sidebar-bg-active: rgba(241, 245, 249, 0.8);
 
   --color-main-bg: #ffffff;
   --color-main-text: #1a1a1a;
   --color-main-muted: #525252;
-  --color-main-border: #e2e8f0;
+  --color-main-border: #f1f5f9;
 }
 
 .dark {
-  --color-sidebar-bg: #0a0a0a;
-  --color-sidebar-border: #1a1a1a;
+  --color-sidebar-bg: rgba(10, 10, 10, 0.7);
+  --color-sidebar-border: rgba(255, 255, 255, 0.05);
   --color-sidebar-text: #888888;
   --color-sidebar-text-active: #ffffff;
-  --color-sidebar-bg-active: #151515;
+  --color-sidebar-bg-active: rgba(255, 255, 255, 0.05);
 
   --color-main-bg: #0a0a0a;
-  --color-main-text: #eeeeee;
-  --color-main-muted: #a1a1a1;
-  --color-main-border: #1f1f1f;
+  --color-main-text: #f8fafc;
+  --color-main-muted: #94a3b8;
+  --color-main-border: #1e293b;
 }
 
 @layer base {
@@ -97,12 +97,12 @@
   }
 
   .prose pre {
-    @apply my-8 p-5 rounded-xl border border-main-border bg-[#0d1117] text-[#e6edf3] overflow-x-auto shadow-sm;
+    @apply my-8 p-6 rounded-2xl border border-white/5 bg-[#0d1117]/90 text-[#e6edf3] overflow-x-auto shadow-2xl backdrop-blur-md;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
 
   .prose pre code {
-    @apply text-[13.5px] leading-6 bg-transparent p-0 border-none text-inherit;
+    @apply text-[13.5px] leading-relaxed bg-transparent p-0 border-none text-inherit;
   }
 
   .prose strong {

@@ -1,0 +1,32 @@
+---
+import ChevronRight from "@lucide/astro/icons/chevron-right";
+import House from "@lucide/astro/icons/house";
+
+interface Props {
+  category: string;
+  title: string;
+}
+
+const { category, title } = Astro.props;
+---
+
+<nav
+  class="flex items-center space-x-2 text-[13px] text-main-muted mb-8"
+  aria-label="Breadcrumb"
+>
+  <a
+    href="/"
+    class="flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+  >
+    <House size={14} />
+    <span>Home</span>
+  </a>
+
+  <ChevronRight size={14} class="opacity-30" />
+
+  <span class="opacity-70">{category}</span>
+
+  <ChevronRight size={14} class="opacity-30" />
+
+  <span class="text-sidebar-text-active font-semibold">{title}</span>
+</nav>

@@ -1,0 +1,7 @@
+{
+  "title": "Guía de Ejecución",
+  "description": "Instrucciones para ejecutar el proyecto en diferentes entornos.",
+  "category": "Development",
+  "order": 3,
+  "content": "# Guía de Ejecución\n\nAsegúrate de tener instalado **Node.js** (v18+) y un gestor de paquetes como `npm` o `pnpm`.\n\n## Entorno de Desarrollo\n\nPara iniciar el servidor de desarrollo con Hot Module Replacement (HMR):\n\n```bash\n# Instalar dependencias\nnpm install\n\n# Levantar el servidor\nnpm run dev\n```\n\nEl proyecto estará disponible por defecto en `http://localhost:4321`.\n\n## Entorno de Producción\n\nPara generar el bundle optimizado y ejecutarlo en modo producción:\n\n### Generar el Build\n```bash\nnpm run build\n```\nEsto generará la carpeta `dist/` con todos los recursos optimizados.\n\n### Previsualizar el Build\n```bash\nnpm run preview\n```\n\n### Despliegue (SSR)\nSi el proyecto usa un adaptador (Vercel, Node, etc.), asegúrate de configurar las variables de entorno necesarias en tu plataforma de hosting."
+}

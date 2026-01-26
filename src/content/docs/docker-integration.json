@@ -1,0 +1,7 @@
+{
+  "title": "Integración con Docker",
+  "description": "Contenerización y despliegue usando Docker.",
+  "category": "DevOps",
+  "order": 1,
+  "content": "# Integración con Docker\n\nEl proyecto está preparado para ejecutarse en contenedores Docker, lo que garantiza la paridad entre los entornos de desarrollo, staging y producción.\n\n## Dockerfile de Producción\n\nUtilizamos una construcción multi-etapa para optimizar el tamaño de la imagen final.\na\n```dockerfile\n# Etapa 1: Build\nFROM node:lts-alpine AS build\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build\n\n# Etapa 2: Runtime\nFROM node:lts-alpine AS runtime\nWORKDIR /app\nCOPY --from=build /app/dist ./dist\n# Si usas modo SSR, copia tbién node_modules y el servidor\nEXPOSE 4321\nCMD [\"node\", \"./dist/server/entry.mjs\"]\n```\n\n## Docker Compose\n\nPara facilitar el levantamiento de la infraestructura completa (Frontend + Backend + DB):\n\n```yaml\nversion: '3.8'\nservices:\n  frontend:\n    build:\n      context: .\n      dockerfile: Dockerfilee\n    ports:\n      - \"80:4321\"\n    environment:\n      - API_URL=http://backend:8080\n```\n\n### Ejecución con Docker\n```bash\ndocker-compose up --build -d\n```"
+}

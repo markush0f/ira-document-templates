@@ -1,25 +1,8 @@
 ---
-import { getCollection } from "astro:content";
+import { getGroupedDocs } from "../lib/docs";
 import X from "@lucide/astro/icons/x";
 
-const docs = await getCollection("docs");
-
-// Group docs by category
-const categories = [...new Set(docs.map((doc) => doc.data.category))].sort(
-  (a, b) => {
-    // Sort Overview first
-    if (a === "Overview") return -1;
-    if (b === "Overview") return 1;
-    return a.localeCompare(b);
-  },
-);
-
-const groupedDocs = categories.map((category) => ({
-  name: category,
-  items: docs
-    .filter((doc) => doc.data.category === category)
-    .sort((a, b) => a.data.order - b.data.order),
-}));
+const groupedDocs = await getGroupedDocs();
 
 const { activeSlug } = Astro.props;
 ---
@@ -27,23 +10,18 @@ const { activeSlug } = Astro.props;
 <!-- Sidebar for Desktop and Mobile -->
 <aside
   id="sidebar"
-  class="w-72 fixed inset-y-0 left-0 bg-sidebar-bg border-r border-sidebar-border z-50 transition-transform duration-300 md:translate-x-0 -translate-x-full overflow-hidden flex flex-col"
+  class="w-72 fixed inset-y-0 left-0 bg-sidebar-bg border-r border-sidebar-border z-50 transition-transform duration-300 md:translate-x-0 -translate-x-full overflow-hidden flex flex-col backdrop-blur-xl"
 >
   <div class="p-8 h-full flex flex-col">
-    <!-- Meta Info -->
-    <div class="mb-10 px-2 text-[12px] text-sidebar-text opacity-70">
-      <p>Last indexed: 22 January 2026 (bf7c3a)</p>
-    </div>
-
     <div class="flex-1 overflow-y-auto custom-scrollbar -mr-4 pr-4">
       {
-        groupedDocs.map((category) => (
+        groupedDocs.map((category: any) => (
           <div class="mb-6">
             <h3 class="px-3 mb-2 text-[13px] font-normal text-sidebar-text opacity-90">
               {category.name}
             </h3>
             <nav class="space-y-0.5 ml-3">
-              {category.items.map((doc) => (
+              {category.items.map((doc: any) => (
                 <a
                   href={`/docs/${doc.id}`}
                   data-astro-prefetch
@@ -112,5 +90,4 @@ const { activeSlug } = Astro.props;
   }
 
   setupSidebar();
-  document.addEventListener("astro:after-swap", setupSidebar);
 </script>

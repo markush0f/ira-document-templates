@@ -1,0 +1,55 @@
+---
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+
+// Basic regex to find markdown headings (## and ###)
+const headingRegex = /^(##|###)\s+(.*)$/gm;
+const headings = [];
+let match;
+
+while ((match = headingRegex.exec(content)) !== null) {
+  const level = match[1].length; // 2 for ##, 3 for ###
+  const text = match[2];
+  const id = text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-");
+
+  headings.push({ level, text, id });
+}
+---
+
+{
+  headings.length > 0 && (
+    <aside class="hidden lg:block w-64 sticky top-24 self-start ml-8">
+      <h4 class="text-[13px] font-semibold text-sidebar-text-active uppercase tracking-wider mb-4 opacity-70">
+        On this page
+      </h4>
+      <nav class="space-y-3">
+        {headings.map((heading) => (
+          <a
+            href={`#${heading.id}`}
+            class={`block text-[13.5px] transition-colors hover:text-primary ${
+              heading.level === 3
+                ? "ml-4 text-main-muted/80"
+                : "text-main-muted font-medium"
+            }`}
+          >
+            {heading.text}
+          </a>
+        ))}
+      </nav>
+    </aside>
+  )
+}
+
+<style>
+  /* Optional: smoothing for anchor links */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+  }
+</style>

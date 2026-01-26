@@ -3,7 +3,7 @@
   "description": "Endpoints para el manejo de sesiones y tokens.",
   "category": "Backend API Reference",
   "order": 10,
-  "content": "# Autenticación\n\nBase URL: `https://api.ejemplo.com/v1/auth`\n\nTodos los endpoints requieren un token JWT en el header `Authorization` para las rutas protegidas.",
+  "content": "# Autenticaciónes\n\nBase URL: `https://api.ejemplo.com/v1/auth`\n\nTodos los endpoints requieren un token JWT en el header `Authorization` para las rutas protegidas.",
   "endpoints": [
     {
       "method": "POST",

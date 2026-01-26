@@ -1,8 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import Sun from 'lucide-react/dist/esm/icons/sun';
-import Moon from 'lucide-react/dist/esm/icons/moon';
-import Monitor from 'lucide-react/dist/esm/icons/monitor';
-import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import { Sun, Moon, Monitor, ChevronDown } from 'lucide-react';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -75,7 +72,7 @@ export default function ThemeToggle() {
         system: 'Sistema'
     };
 
-    const icons = {
+    const icons: Record<Theme, React.ReactNode> = {
         light: <Sun className="h-4 w-4" />,
         dark: <Moon className="h-4 w-4" />,
         system: <Monitor className="h-4 w-4" />

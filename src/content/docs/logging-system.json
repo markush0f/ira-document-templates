@@ -1,0 +1,7 @@
+{
+  "title": "Sistema de Logs",
+  "description": "Monitorización y trazabilidad del sistema.",
+  "category": "Operations",
+  "order": 1,
+  "content": "# Sistema de Logs\n\nEl registro de eventos es crucial para la depuración y auditoría del sistema.\n\n## Niveles de Logs\n\n- **DEBUG**: Información detallada para desarrollo.\n- **INFO**: Eventos significativos (inicio de servicios, peticiones exitosas).\n- **WARN**: Advertencias sobre comportamientos inesperados que no detienen el sistema.\n- **ERROR**: Errores que afectan a una funcionalidad específica.\n- **FATAL**: Errores críticos que requieren el reinicio del sistema.\n\n## Trazabilidad de Peticiones\n\nCada petición HTTP entrante incluye un `X-Request-ID` en las cabeceras. Este ID debe propagarse en todos los logs relacionados para permitir el seguimiento de una solicitud a través de los diferentes microservicios.\n\n## Almacenamiento\n\nLos logs se envían a la salida estándar (`stdout`) en formato JSON para que sean recolectados por herramientas de agregación como:\n\n- **ELK Stack** (Elasticsearch, Logstash, Kibana)\n- **Graylog**\n- **Datadog**\n\n### Ejemplo de Log JSON\n```json\n{\n  \"timestamp\": \"2026-01-26T12:40:00Z\",\n  \"level\": \"INFO\",\n  \"service\": \"frontend-gateway\",\n  \"request_id\": \"req-abc-123\",\n  \"message\": \"User successfully logged in\",\n  \"user_id\": \"user_01\"\n}\n```"
+}

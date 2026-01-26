@@ -1,57 +1,23 @@
 ---
-import { getCollection } from "astro:content";
+import { getAllDocs, getParsedMarkdown } from "../../lib/docs";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
 import DocLayout from "../../layouts/DocLayout.astro";
-import { Endpoint } from "../../components/Endpoint";
+import Endpoint from "../../components/Endpoint.astro";
 import Mermaid from "../../components/Mermaid";
 
-import { marked } from "marked";
-
 export async function getStaticPaths() {
-  const docs = await getCollection("docs");
-  return docs.map((doc) => ({
+  const docs = await getAllDocs();
+  return docs.map((doc: any) => ({
     params: { slug: doc.id },
     props: { doc },
   }));
 }
 
-const { doc } = Astro.props;
+const { doc } = Astro.props as { doc: any };
 const { data } = doc;
-
-// Render markdown content to HTML
-const htmlContent = data.content ? marked.parse(data.content) : "";
 ---
 
-<DocLayout title={data.title} slug={doc.id}>
-  <div class="max-w-6xl mx-auto">
-    <article class="prose max-w-4xl">
-      {htmlContent && <div set:html={htmlContent} />}
-
-      {
-        data.diagram && (
-          <div class="not-prose my-12">
-            <Mermaid client:only="react" chart={data.diagram} />
-          </div>
-        )
-      }
-    </article>
-
-    {
-      data.endpoints && data.endpoints.length > 0 && (
-        <div class="mt-24 border-t border-slate-100 dark:border-slate-800/50 pt-16">
-          <h2 class="text-3xl font-extrabold mb-10 tracking-tight text-[var(--color-sidebar-text-active)]">
-            API Reference
-          </h2>
-          <div class="flex flex-col border border-slate-200/60 dark:border-slate-800/60 rounded-2xl overflow-hidden bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm">
-            {data.endpoints.map((endpoint) => (
-              <Endpoint
-                method={endpoint.method}
-                path={endpoint.path}
-                description={endpoint.description}
-              />
-            ))}
-          </div>
-        </div>
-      )
-    }
-  </div>
+<DocLayout title={data.title} slug={doc.id} rawDoc={data}>
+  <!-- Content is now handled reactively by AppShell and DocRenderer -->
 </DocLayout>

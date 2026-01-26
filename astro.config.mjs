@@ -11,7 +11,7 @@ export default defineConfig({
   },
   integrations: [mdx(), react()],
   prefetch: {
-    prefetchAll: true,
+    prefetchAll: false,
     defaultStrategy: 'hover'
   }
 });
