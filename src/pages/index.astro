@@ -2,15 +2,16 @@
 import { getAllDocs } from "../lib/docs";
 
 const docs = await getAllDocs();
-console.log('Docs found:', docs.length);
+console.log("Docs found:", docs.length);
 if (docs.length > 0) {
-    console.log('First doc ID:', docs[0].id);
+  console.log("First doc ID:", docs[0].id);
 }
 
 const firstDoc = docs[0];
-const targetUrl = firstDoc ? `/docs/${firstDoc.id}` : '/docs/404';
-console.log('Redirecting to:', targetUrl);
+const targetUrl = firstDoc ? `/docs/${firstDoc.id}` : "/docs/404";
+console.log("Redirecting to:", targetUrl);
 ---
 
+<!-- TODO que salga una pagina como si estuviera cargando en vez de una etiqueta simple -->
 <meta http-equiv="refresh" content={`0;url=${targetUrl}`} />
 <p>Redirecting to <a href={targetUrl}>{targetUrl}</a>...</p>

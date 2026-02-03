@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Menu, ChevronRight, ChevronDown, MessageCircle, FolderTree } from 'lucide-react';
+import { X, Menu, ChevronRight, ChevronDown, MessageCircle, FolderTree, Server } from 'lucide-react';
 
 interface SidebarNode {
     id: string;
@@ -134,6 +134,19 @@ export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
                                 <FolderTree size={12} />
                             </span>
                             <span className="font-medium">Structure</span>
+                        </a>
+                        <a
+                            href="/endpoints"
+                            className={`flex items-center gap-2 px-3 py-2 text-[13.5px] rounded-md transition-all duration-150 mb-0.5 border border-transparent
+                            ${activeSlug === 'endpoints'
+                                    ? "bg-sidebar-bg-active text-sidebar-text-active font-medium shadow-sm"
+                                    : "text-sidebar-text hover:text-sidebar-text-active hover:bg-sidebar-bg-active/40 hover:border-sidebar-border"
+                                }`}
+                        >
+                            <span className="flex items-center justify-center w-5 h-5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 shadow-sm">
+                                <Server size={12} />
+                            </span>
+                            <span className="font-medium">Endpoints</span>
                         </a>
                         <div className="h-px bg-sidebar-border/50 my-2 mx-2"></div>
                     </div>
