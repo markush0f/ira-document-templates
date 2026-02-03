@@ -1,17 +1,120 @@
 ---
 import { getAllDocs } from "../lib/docs";
+import "../styles/global.css";
 
 const docs = await getAllDocs();
-console.log("Docs found:", docs.length);
-if (docs.length > 0) {
-  console.log("First doc ID:", docs[0].id);
-}
-
 const firstDoc = docs[0];
 const targetUrl = firstDoc ? `/docs/${firstDoc.id}` : "/docs/404";
-console.log("Redirecting to:", targetUrl);
 ---
 
-<!-- TODO que salga una pagina como si estuviera cargando en vez de una etiqueta simple -->
-<meta http-equiv="refresh" content={`0;url=${targetUrl}`} />
-<p>Redirecting to <a href={targetUrl}>{targetUrl}</a>...</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading Documentation...</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script define:vars={{ targetUrl }}>
+      // Initial theme check to prevent flash of white
+      if (
+        typeof localStorage !== "undefined" &&
+        localStorage.getItem("theme")
+      ) {
+        const theme = localStorage.getItem("theme");
+        if (theme === "dark") document.documentElement.classList.add("dark");
+      } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.documentElement.classList.add("dark");
+      }
+
+      // Smooth horizontal redirect after a short artistic delay
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 1000);
+    </script>
+  </head>
+  <body
+    class="bg-white dark:bg-[#0a0a0a] min-h-screen flex flex-col items-center justify-center font-sans antialiased overflow-hidden"
+  >
+    <div class="relative flex flex-col items-center gap-8 animate-fade-in-up">
+      <!-- Visual Indicator - Sleek Pulse -->
+      <div class="relative">
+        <div
+          class="w-16 h-16 rounded-2xl bg-zinc-900 dark:bg-white flex items-center justify-center shadow-2xl relative z-10"
+        >
+          <svg
+            class="animate-spin text-white dark:text-zinc-900"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 2v4"></path><path d="m16.2 7.8 2.9-2.9"></path><path
+              d="M18 12h4"></path><path d="m16.2 16.2 2.9 2.9"></path><path
+              d="M12 18v4"></path><path d="m4.9 19.1 2.9-2.9"></path><path
+              d="M2 12h4"></path><path d="m4.9 4.9 2.9 2.9"></path>
+          </svg>
+        </div>
+        <!-- Glow effect -->
+        <div
+          class="absolute inset-0 bg-zinc-900/20 dark:bg-white/20 blur-2xl rounded-full animate-pulse scale-150 -z-10"
+        >
+        </div>
+      </div>
+
+      <!-- Text Info -->
+      <div class="text-center">
+        <h1
+          class="text-zinc-900 dark:text-zinc-100 font-semibold tracking-tight text-lg mb-1"
+        >
+          Technical Documentation
+        </h1>
+        <p class="text-zinc-400 dark:text-zinc-500 text-sm font-medium">
+          Initialising documents...
+        </p>
+      </div>
+
+      <!-- Progress Line -->
+      <div
+        class="w-48 h-1 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden"
+      >
+        <div
+          class="h-full bg-zinc-900 dark:bg-white w-full origin-left animate-[loading-bar_1.5s_ease-in-out_infinite]"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- Fallback link -->
+    <a
+      href={targetUrl}
+      class="fixed bottom-8 text-[11px] text-zinc-300 dark:text-zinc-700 hover:text-zinc-500 transition-colors uppercase tracking-widest font-medium"
+    >
+      Skip to content
+    </a>
+
+    <style is:global>
+      @keyframes loading-bar {
+        0% {
+          transform: translateX(-100%);
+        }
+        50% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+    </style>
+  </body>
+</html>
