@@ -8,9 +8,10 @@ interface AppShellProps {
     groupedDocs: any[];
     activeSlug?: string;
     rawDoc?: any;
+    children?: React.ReactNode;
 }
 
-export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellProps) {
+export default function AppShell({ groupedDocs, activeSlug, rawDoc, children }: AppShellProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [liveData, setLiveData] = useState<any>(null);
     const [isSaving, setIsSaving] = useState(false);
@@ -70,7 +71,8 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
         }
     };
 
-    if (!liveData) return null;
+    // Removed early return to support children rendering
+    // if (!liveData) return null;
 
     return (
         <div className="min-h-screen">
@@ -112,57 +114,62 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
                     <ThemeToggle />
                 </div>
 
-                <main className={`flex-1 transition-colors ${isEditing ? 'bg-slate-50/50 dark:bg-slate-950/30' : ''}`}>
-                    <div className="p-6 md:p-12 lg:px-16 lg:py-12 pt-20 md:pt-12 max-w-7xl mx-auto">
+                <main className={`flex-1 transition-colors h-full ${isEditing ? 'bg-slate-50/50 dark:bg-slate-950/30' : ''}`}>
+                    {liveData ? (
+                        <div className="p-6 md:p-12 lg:px-16 lg:py-12 pt-20 md:pt-12 max-w-7xl mx-auto h-full">
+                            <nav className="flex items-center space-x-2 text-[13px] text-main-muted mb-8" aria-label="Breadcrumb">
+                                <a href="/" className="flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
+                                    <House size={14} />
+                                    <span>Home</span>
+                                </a>
+                                <ChevronRight size={14} className="opacity-30" />
+                                <span className="opacity-70">Docs</span>
+                                <ChevronRight size={14} className="opacity-30" />
+                                <span className="text-sidebar-text-active font-semibold">{liveData.title}</span>
+                            </nav>
 
-                        <nav className="flex items-center space-x-2 text-[13px] text-main-muted mb-8" aria-label="Breadcrumb">
-                            <a href="/" className="flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
-                                <House size={14} />
-                                <span>Home</span>
-                            </a>
-                            <ChevronRight size={14} className="opacity-30" />
-                            <span className="opacity-70">Docs</span>
-                            <ChevronRight size={14} className="opacity-30" />
-                            <span className="text-sidebar-text-active font-semibold">{liveData.title}</span>
-                        </nav>
-
-                        {isEditing ? (
-                            <div className="animate-in fade-in duration-500 max-w-5xl">
-                                <div className="space-y-8">
-                                    <textarea
-                                        value={liveData.title}
-                                        onChange={(e) => setLiveData({ ...liveData, title: e.target.value })}
-                                        className="w-full bg-transparent border-none text-4xl md:text-5xl font-extrabold tracking-tight text-sidebar-text-active focus:outline-none resize-none overflow-hidden p-0 placeholder:opacity-20"
-                                        rows={1}
-                                        onInput={(e) => {
-                                            const t = e.target as HTMLTextAreaElement;
-                                            t.style.height = 'auto';
-                                            t.style.height = t.scrollHeight + 'px';
-                                        }}
-                                    />
-                                    <input
-                                        type="text"
-                                        value={liveData.description}
-                                        onChange={(e) => setLiveData({ ...liveData, description: e.target.value })}
-                                        className="w-full bg-transparent border-none text-xl text-main-muted focus:outline-none p-0 placeholder:opacity-20"
-                                    />
-                                    <div className="h-px bg-main-border w-full" />
-                                    <textarea
-                                        value={liveData.content_markdown || liveData.content || ''}
-                                        onChange={(e) => setLiveData({ ...liveData, content_markdown: e.target.value })}
-                                        className="w-full min-h-[500px] bg-transparent border-none text-[15.5px] leading-7 font-normal text-main-muted focus:outline-none resize-none p-0 overflow-hidden placeholder:opacity-20"
-                                        onInput={(e) => {
-                                            const t = e.target as HTMLTextAreaElement;
-                                            t.style.height = 'auto';
-                                            t.style.height = t.scrollHeight + 'px';
-                                        }}
-                                    />
+                            {isEditing ? (
+                                <div className="animate-in fade-in duration-500 max-w-5xl">
+                                    <div className="space-y-8">
+                                        <textarea
+                                            value={liveData.title}
+                                            onChange={(e) => setLiveData({ ...liveData, title: e.target.value })}
+                                            className="w-full bg-transparent border-none text-4xl md:text-5xl font-extrabold tracking-tight text-sidebar-text-active focus:outline-none resize-none overflow-hidden p-0 placeholder:opacity-20"
+                                            rows={1}
+                                            onInput={(e) => {
+                                                const t = e.target as HTMLTextAreaElement;
+                                                t.style.height = 'auto';
+                                                t.style.height = t.scrollHeight + 'px';
+                                            }}
+                                        />
+                                        <input
+                                            type="text"
+                                            value={liveData.description}
+                                            onChange={(e) => setLiveData({ ...liveData, description: e.target.value })}
+                                            className="w-full bg-transparent border-none text-xl text-main-muted focus:outline-none p-0 placeholder:opacity-20"
+                                        />
+                                        <div className="h-px bg-main-border w-full" />
+                                        <textarea
+                                            value={liveData.content_markdown || liveData.content || ''}
+                                            onChange={(e) => setLiveData({ ...liveData, content_markdown: e.target.value })}
+                                            className="w-full min-h-[500px] bg-transparent border-none text-[15.5px] leading-7 font-normal text-main-muted focus:outline-none resize-none p-0 overflow-hidden placeholder:opacity-20"
+                                            onInput={(e) => {
+                                                const t = e.target as HTMLTextAreaElement;
+                                                t.style.height = 'auto';
+                                                t.style.height = t.scrollHeight + 'px';
+                                            }}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        ) : (
-                            <DocRenderer data={liveData} />
-                        )}
-                    </div>
+                            ) : (
+                                <DocRenderer data={liveData} />
+                            )}
+                        </div>
+                    ) : (
+                        <div className="h-full w-full">
+                            {children}
+                        </div>
+                    )}
                 </main>
             </div>
         </div>

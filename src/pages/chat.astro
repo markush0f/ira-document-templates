@@ -1,0 +1,13 @@
+---
+import DocLayout from "../layouts/DocLayout.astro";
+import Chatbot from "../components/Chatbot";
+import "../styles/global.css";
+
+const title = "AI Assistant";
+---
+
+<DocLayout title={title}>
+  <div class="h-screen w-full flex flex-col bg-white dark:bg-[#0a0a0a]">
+    <Chatbot client:only="react" fullPage={true} />
+  </div>
+</DocLayout>

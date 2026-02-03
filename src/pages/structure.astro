@@ -1,0 +1,48 @@
+---
+import DocLayout from "../layouts/DocLayout.astro";
+import FileTree from "../components/FileTree.tsx";
+import fs from "node:fs/promises";
+import path from "node:path";
+
+const title = "Project Structure";
+
+let fileTreeData = [];
+
+try {
+  const filePath = path.join(process.cwd(), "project_structure.json");
+  const fileContent = await fs.readFile(filePath, "utf-8");
+  fileTreeData = JSON.parse(fileContent);
+} catch (error) {
+  console.error("Error reading project structure:", error);
+}
+
+// Convert if needed, the JSON from `tree` is an array
+const data = Array.isArray(fileTreeData) ? fileTreeData : [fileTreeData];
+---
+
+<DocLayout title={title}>
+  <div class="h-full flex flex-col p-4 md:p-8 max-w-7xl mx-auto w-full">
+    <div class="mb-4">
+      <h1
+        class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-2"
+      >
+        Project Structure
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400">
+        Visual representation of the file system hierarchy.
+      </p>
+    </div>
+
+    <div class="flex-1 overflow-auto">
+      {
+        fileTreeData.length > 0 ? (
+          <FileTree client:load data={data} />
+        ) : (
+          <div class="p-8 text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-400">
+            project_structure.json not found in root directory.
+          </div>
+        )
+      }
+    </div>
+  </div>
+</DocLayout>
