@@ -42,7 +42,7 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
         setIsSaving(true);
 
         try {
-            // 1. Guardar localmente de forma persistente para la recarga de Astro
+            // 1. Save locally persistently for Astro reload
             sessionStorage.setItem(`pending_save_${activeSlug}`, JSON.stringify(liveData));
 
             const response = await fetch('/api/save-doc', {
@@ -61,11 +61,11 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
                     setIsEditing(false);
                 }, 800);
             } else {
-                alert('Error al guardar');
+                alert('Error saving');
                 setIsSaving(false);
             }
         } catch (e) {
-            alert('Error al conectar');
+            alert('Connection error');
             setIsSaving(false);
         }
     };
@@ -98,7 +98,7 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
                                     }`}
                             >
                                 {showSuccess ? <Check size={18} /> : <Save size={18} />}
-                                <span>{showSuccess ? 'Actualizado' : isSaving ? 'Guardando...' : 'Guardar Cambios'}</span>
+                                <span>{showSuccess ? 'Updated' : isSaving ? 'Saving...' : 'Save Changes'}</span>
                             </button>
                             <button
                                 onClick={() => setIsEditing(false)}
@@ -121,7 +121,7 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
                                 <span>Home</span>
                             </a>
                             <ChevronRight size={14} className="opacity-30" />
-                            <span className="opacity-70">{liveData.category}</span>
+                            <span className="opacity-70">Docs</span>
                             <ChevronRight size={14} className="opacity-30" />
                             <span className="text-sidebar-text-active font-semibold">{liveData.title}</span>
                         </nav>
@@ -148,8 +148,8 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc }: AppShellPr
                                     />
                                     <div className="h-px bg-main-border w-full" />
                                     <textarea
-                                        value={liveData.content}
-                                        onChange={(e) => setLiveData({ ...liveData, content: e.target.value })}
+                                        value={liveData.content_markdown || liveData.content || ''}
+                                        onChange={(e) => setLiveData({ ...liveData, content_markdown: e.target.value })}
                                         className="w-full min-h-[500px] bg-transparent border-none text-[15.5px] leading-7 font-normal text-main-muted focus:outline-none resize-none p-0 overflow-hidden placeholder:opacity-20"
                                         onInput={(e) => {
                                             const t = e.target as HTMLTextAreaElement;

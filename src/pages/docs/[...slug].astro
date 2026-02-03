@@ -1,20 +1,22 @@
 ---
-import { getAllDocs, getParsedMarkdown } from "../../lib/docs";
-import Breadcrumbs from "../../components/Breadcrumbs.astro";
-import TableOfContents from "../../components/TableOfContents.astro";
+import { getEntry } from "astro:content";
 import DocLayout from "../../layouts/DocLayout.astro";
-import Endpoint from "../../components/Endpoint.astro";
-import Mermaid from "../../components/Mermaid";
+import { getAllDocs } from "../../lib/docs";
 
-export async function getStaticPaths() {
-  const docs = await getAllDocs();
-  return docs.map((doc: any) => ({
-    params: { slug: doc.id },
-    props: { doc },
-  }));
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/docs/404');
 }
 
-const { doc } = Astro.props as { doc: any };
+// Fetch the document
+let doc = await getEntry("docs", slug);
+
+// If not found, try to find in all docs (legacy fallback)
+if (!doc) {
+  return Astro.redirect('/docs/404');
+}
+
 const { data } = doc;
 ---
 

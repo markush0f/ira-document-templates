@@ -1,10 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import { X, Menu } from 'lucide-react';
+import { X, Menu, ChevronRight, ChevronDown } from 'lucide-react';
+
+interface SidebarNode {
+    id: string;
+    label: string;
+    type: 'category' | 'page';
+    children?: SidebarNode[];
+}
 
 interface SidebarProps {
-    groupedDocs: any[];
+    groupedDocs: SidebarNode[];
     activeSlug?: string;
 }
+
+const SidebarItem = ({ item, activeSlug, depth = 0 }: { item: SidebarNode, activeSlug?: string, depth?: number }) => {
+    const [isExpanded, setIsExpanded] = useState(true);
+    const isActive = activeSlug === item.id;
+    const hasChildren = item.children && item.children.length > 0;
+    const isCategory = item.type === 'category';
+
+    useEffect(() => {
+        // Auto-expand if a child is active
+        if (hasChildren) {
+             const containsActive = (nodes: SidebarNode[]): boolean => {
+                return nodes.some(node => node.id === activeSlug || (node.children && containsActive(node.children)));
+             };
+             if (containsActive(item.children!)) {
+                 setIsExpanded(true);
+             }
+        }
+    }, [activeSlug, item, hasChildren]);
+
+    if (isCategory) {
+        return (
+            <div className="mb-1">
+                <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className={`w-full flex items-center gap-2 px-3 py-1.5 text-[13px] font-medium transition-colors rounded-md hover:bg-white/5 
+                    ${depth === 0 ? 'text-sidebar-text opacity-90 mt-4 mb-2 uppercase tracking-wider text-xs' : 'text-sidebar-text/80'}`}
+                    style={{ paddingLeft: depth > 0 ? `${depth * 12 + 12}px` : undefined }}
+                >
+                    {depth > 0 && (
+                        <span className="opacity-50">
+                            {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                        </span>
+                    )}
+                    {/* Only show icon for deeper categories if desired, or just text for top level */}
+                   
+                    <span>{item.label}</span>
+                </button>
+                {isExpanded && hasChildren && (
+                    <div className="flex flex-col">
+                        {item.children!.map((child) => (
+                            <SidebarItem key={child.id} item={child} activeSlug={activeSlug} depth={depth + 1} />
+                        ))}
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    // Page Item
+    return (
+        <a
+            href={`/docs/${item.id}`}
+            className={`flex items-center gap-2 px-3 py-1.5 text-[13.5px] rounded-md transition-all duration-150 mb-0.5
+            ${isActive
+                ? "bg-sidebar-bg-active text-sidebar-text-active font-medium shadow-sm"
+                : "text-sidebar-text hover:text-sidebar-text-active hover:bg-sidebar-bg-active/40"
+            }`}
+             style={{ paddingLeft: `${depth * 16 + 12}px` }}
+        >
+            {/* <span>{item.label}</span> already has text only */}
+            <span>{item.label}</span>
+        </a>
+    );
+};
 
 export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -31,28 +102,15 @@ export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
                 className={`w-72 fixed inset-y-0 left-0 bg-sidebar-bg border-r border-sidebar-border z-50 transition-transform duration-300 backdrop-blur-xl flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
                     }`}
             >
-                <div className="p-8 h-full flex flex-col">
-                    <div className="flex-1 overflow-y-auto custom-scrollbar -mr-4 pr-4">
-                        {groupedDocs.map((category) => (
-                            <div key={category.name} className="mb-6">
-                                <h3 className="px-3 mb-2 text-[13px] font-normal text-sidebar-text opacity-90">
-                                    {category.name}
-                                </h3>
-                                <nav className="space-y-0.5 ml-3">
-                                    {category.items.map((doc: any) => (
-                                        <a
-                                            key={doc.id}
-                                            href={`/docs/${doc.id}`}
-                                            className={`block px-4 py-1.5 rounded-md text-[13.5px] transition-all duration-150 ${activeSlug === doc.id
-                                                ? "bg-sidebar-bg-active text-sidebar-text-active font-medium shadow-sm"
-                                                : "text-sidebar-text hover:text-sidebar-text-active hover:bg-sidebar-bg-active/40"
-                                                }`}
-                                        >
-                                            {doc.data.title}
-                                        </a>
-                                    ))}
-                                </nav>
-                            </div>
+                <div className="h-full flex flex-col">
+                     {/* Header/Brand if needed */}
+                     <div className="p-6 pb-2">
+                        {/* Use the top level project structure if useful, or just iterate */}
+                     </div>
+
+                    <div className="flex-1 overflow-y-auto custom-scrollbar px-3 pb-8">
+                        {groupedDocs.map((node) => (
+                            <SidebarItem key={node.id} item={node} activeSlug={activeSlug} />
                         ))}
                     </div>
 

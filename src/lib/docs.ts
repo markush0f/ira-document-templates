@@ -1,42 +1,40 @@
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import { marked } from "marked";
 
 let cachedDocs: any = null;
-let cachedGroupedDocs: any = null;
+let cachedSidebar: any = null;
 let htmlCache = new Map();
 
 export async function getGroupedDocs() {
-  if (cachedGroupedDocs && import.meta.env.DEV) return cachedGroupedDocs;
+  if (cachedSidebar && import.meta.env.DEV) return cachedSidebar;
 
-  const docs = await getCollection("docs");
-  
-  const categories = [...new Set(docs.map((doc) => doc.data.category))].sort(
-    (a, b) => {
-      if (a === "Overview") return -1;
-      if (b === "Overview") return 1;
-      return a.localeCompare(b);
-    },
-  );
+  const sidebarEntry = await getEntry("docs", "sidebar");
+  if (sidebarEntry) {
+    // Return the tree structure
+    cachedSidebar = (sidebarEntry.data as any).tree;
+  } else {
+    // Fallback if no sidebar file
+    cachedSidebar = [];
+  }
 
-  cachedGroupedDocs = categories.map((category) => ({
-    name: category,
-    items: docs
-      .filter((doc) => doc.data.category === category)
-      .sort((a, b) => a.data.order - b.data.order),
-  }));
-
-  return cachedGroupedDocs;
+  return cachedSidebar;
 }
 
 export async function getAllDocs() {
-    if (cachedDocs && import.meta.env.DEV) return cachedDocs;
-    cachedDocs = await getCollection("docs");
-    return cachedDocs;
+  if (cachedDocs && import.meta.env.DEV) return cachedDocs;
+  const allEntries = await getCollection("docs");
+  // Filter out sidebar and metadata, keep only actual docs (those with title)
+  cachedDocs = allEntries.filter((entry) =>
+    entry.id !== "sidebar" &&
+    entry.id !== "metadata" &&
+    "title" in entry.data
+  );
+  return cachedDocs;
 }
 
 export function getParsedMarkdown(content: string, id: string) {
-    if (htmlCache.has(id) && import.meta.env.DEV) return htmlCache.get(id);
-    const html = marked.parse(content);
-    htmlCache.set(id, html);
-    return html;
+  if (htmlCache.has(id) && import.meta.env.DEV) return htmlCache.get(id);
+  const html = marked.parse(content);
+  htmlCache.set(id, html);
+  return html;
 }

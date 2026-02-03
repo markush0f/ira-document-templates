@@ -32,13 +32,18 @@ const EndpointReact = ({ method, path, description }: any) => {
 };
 
 export default function DocRenderer({ data }: { data: any }) {
+    // Adapter for legacy/new format
+    const content = data.content_markdown || data.content;
+    const diagram = data.diagram_mermaid || data.diagram;
+    const relatedFiles = data.related_files || [];
+
     // Force a fresh parse on every data change
     const htmlContent = useMemo(() => {
-        if (!data.content) return '';
+        if (!content) return '';
         // Ensure we're using the sync parse
         const parser = typeof marked.parse === 'function' ? marked.parse : (marked as any);
-        return parser(data.content);
-    }, [data.content]);
+        return parser(content);
+    }, [content]);
 
     return (
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 animate-in fade-in duration-300">
@@ -46,28 +51,31 @@ export default function DocRenderer({ data }: { data: any }) {
                 <article className="prose max-w-4xl prose-headings:scroll-mt-24 dark:prose-invert">
                     {htmlContent && <div dangerouslySetInnerHTML={{ __html: htmlContent as string }} />}
 
-                    {data.diagram && (
-                        <div className="not-prose my-12" key={data.diagram.length}>
-                            <Mermaid chart={data.diagram} />
+                    {diagram && (
+                        <div className="not-prose my-12" key={diagram.length}>
+                            <Mermaid chart={diagram} />
                         </div>
                     )}
                 </article>
 
-                {data.endpoints && data.endpoints.length > 0 && (
-                    <div className="mt-24 border-t border-main-border pt-16">
-                        <h2 className="text-3xl font-extrabold mb-10 tracking-tight text-sidebar-text-active">
-                            API Reference
-                        </h2>
-                        <div className="flex flex-col border border-main-border rounded-3xl overflow-hidden bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm shadow-sm">
-                            {data.endpoints.map((endpoint: any, i: number) => (
-                                <EndpointReact key={i} {...endpoint} />
+                {relatedFiles.length > 0 && (
+                     <div className="mt-16 border-t border-main-border pt-8">
+                        <h3 className="text-sm font-semibold uppercase tracking-wider text-main-muted mb-4">
+                            Related Files
+                        </h3>
+                        <ul className="space-y-2">
+                            {relatedFiles.map((file: string, i: number) => (
+                                <li key={i} className="flex items-center gap-2 text-sm font-mono text-sidebar-text-active bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-md">
+                                    <span className="opacity-50">📄</span>
+                                    {file}
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     </div>
                 )}
             </div>
 
-            {data.content && <TableOfContents content={data.content} />}
+            {content && <TableOfContents content={content} />}
         </div>
     );
 }

@@ -1,0 +1,124 @@
+{
+  "project_name": "Project Documentation",
+  "tree": [
+    {
+      "id": "core-module",
+      "label": "Core",
+      "type": "category",
+      "children": [
+        {
+          "id": "core-app",
+          "label": "App",
+          "type": "page",
+          "children": []
+        },
+        {
+          "id": "core-services",
+          "label": "Services",
+          "type": "page",
+          "children": []
+        },
+        {
+          "id": "core-infra",
+          "label": "Infrastructure",
+          "type": "page",
+          "children": []
+        },
+        {
+          "id": "core-core",
+          "label": "Core Components",
+          "type": "page",
+          "children": []
+        },
+        {
+          "id": "core-models",
+          "label": "Models",
+          "type": "page",
+          "children": []
+        },
+        {
+          "id": "core-storage",
+          "label": "Storage",
+          "type": "page",
+          "children": []
+        },
+        {
+          "id": "core-agents",
+          "label": "Agents",
+          "type": "category",
+          "children": [
+            {
+              "id": "core-agents-tools",
+              "label": "Tools",
+              "type": "page",
+              "children": []
+            },
+            {
+              "id": "core-agents-miner",
+              "label": "Miner",
+              "type": "page",
+              "children": []
+            },
+            {
+              "id": "core-agents-core",
+              "label": "Core Agents",
+              "type": "page",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "core-pipeline",
+          "label": "Pipeline",
+          "type": "category",
+          "children": [
+            {
+              "id": "core-pipeline-main",
+              "label": "Main Pipeline",
+              "type": "page",
+              "children": []
+            },
+            {
+              "id": "core-pipeline-steps",
+              "label": "Pipeline Steps",
+              "type": "page",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "core-scanners",
+          "label": "Scanners",
+          "type": "category",
+          "children": [
+            {
+              "id": "core-scanners-main",
+              "label": "Main Scanners",
+              "type": "page",
+              "children": []
+            },
+            {
+              "id": "core-scanners-technologies",
+              "label": "Technologies",
+              "type": "category",
+              "children": [
+                {
+                  "id": "core-scanners-technologies-main",
+                  "label": "Technologies Overview",
+                  "type": "page",
+                  "children": []
+                },
+                {
+                  "id": "core-scanners-technologies-metadata",
+                  "label": "Metadata",
+                  "type": "page",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
