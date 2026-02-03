@@ -1,6 +1,6 @@
 ---
 import { getGroupedDocs } from "../lib/docs";
-import X from "@lucide/astro/icons/x";
+import { X } from "@phosphor-icons/react";
 
 const groupedDocs = await getGroupedDocs();
 
@@ -45,7 +45,7 @@ const { activeSlug } = Astro.props;
       id="sidebar-close"
       class="md:hidden absolute top-6 right-6 p-2 text-sidebar-text hover:text-sidebar-text-active transition-colors"
     >
-      <X size={20} />
+      <X size={20} className="" />
     </button>
   </div>
 </aside>

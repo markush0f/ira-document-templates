@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User, RefreshCw, Maximize2, Minimize2, Sparkles } from 'lucide-react';
+import { ChatCircle, X, PaperPlaneRight, Robot, User, ArrowsClockwise, CornersOut, CornersIn } from '@phosphor-icons/react';
 
 // --- Types ---
 
@@ -81,7 +81,7 @@ const ChatMessageItem = ({ message }: { message: Message }) => {
                     ? 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-blue-600 dark:text-blue-400'
                     : 'bg-zinc-100 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400'
                     }`}>
-                    {isBot ? <Bot size={14} /> : <User size={14} />}
+                    {isBot ? <Robot size={14} /> : <User size={14} />}
                 </div>
 
                 {/* Bubble */}
@@ -100,7 +100,7 @@ const TypingIndicator = () => (
     <div className="flex w-full justify-start animate-fade-in-up">
         <div className="flex max-w-[80%] gap-3">
             <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                <Bot size={14} />
+                <Robot size={14} />
             </div>
             <div className="bg-zinc-50 dark:bg-zinc-800/50 p-3.5 rounded-2xl rounded-tl-none border border-zinc-200/50 dark:border-zinc-700/50 flex items-center gap-1 h-[42px]">
                 <span className="w-1 h-1 bg-zinc-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
@@ -181,7 +181,7 @@ export default function Chatbot({ fullPage = false }: ChatbotProps) {
                 <div className="flex items-center justify-between px-4 py-3 bg-white/80 dark:bg-zinc-900/80 border-b border-zinc-100 dark:border-zinc-800/50 backdrop-blur-sm sticky top-0 z-10">
                     <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700">
-                            <Bot size={16} strokeWidth={2} />
+                            <Robot size={16} mirrored={false} />
                         </div>
                         <div>
                             <h3 className="font-semibold text-zinc-900 dark:text-zinc-100 text-sm leading-tight">Assistant</h3>
@@ -194,7 +194,7 @@ export default function Chatbot({ fullPage = false }: ChatbotProps) {
                             className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-600 dark:hover:text-zinc-300 rounded-md transition-colors"
                             title="Clear Chat"
                         >
-                            <RefreshCw size={16} />
+                            <ArrowsClockwise size={16} />
                         </button>
 
                         {!fullPage && (
@@ -204,7 +204,7 @@ export default function Chatbot({ fullPage = false }: ChatbotProps) {
                                     className="p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 hover:text-zinc-600 dark:hover:text-zinc-300 rounded-md transition-colors hidden sm:flex"
                                     title={isExpanded ? "Collapse" : "Expand"}
                                 >
-                                    {isExpanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+                                    {isExpanded ? <CornersIn size={16} /> : <CornersOut size={16} />}
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
@@ -242,7 +242,7 @@ export default function Chatbot({ fullPage = false }: ChatbotProps) {
                             disabled={!inputValue.trim() || isTyping}
                             className="absolute right-1.5 p-1.5 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:opacity-90 flex items-center justify-center"
                         >
-                            <Send size={14} />
+                            <PaperPlaneRight size={14} weight="fill" />
                         </button>
                     </form>
                 </div>
@@ -260,7 +260,7 @@ export default function Chatbot({ fullPage = false }: ChatbotProps) {
                         }
             `}
                 >
-                    {isOpen ? <X size={20} /> : <MessageCircle size={20} strokeWidth={2} />}
+                    {isOpen ? <X size={20} /> : <ChatCircle size={20} weight="bold" />}
                 </button>
             )}
         </div>

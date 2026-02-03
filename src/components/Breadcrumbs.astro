@@ -1,6 +1,5 @@
 ---
-import ChevronRight from "@lucide/astro/icons/chevron-right";
-import House from "@lucide/astro/icons/house";
+import { House, CaretRight } from "@phosphor-icons/react";
 
 interface Props {
   category: string;
@@ -22,11 +21,11 @@ const { category, title } = Astro.props;
     <span>Home</span>
   </a>
 
-  <ChevronRight size={14} class="opacity-30" />
+  <CaretRight size={14} className="opacity-30" />
 
   <span class="opacity-70">{category}</span>
 
-  <ChevronRight size={14} class="opacity-30" />
+  <CaretRight size={14} className="opacity-30" />
 
   <span class="text-sidebar-text-active font-semibold">{title}</span>
 </nav>

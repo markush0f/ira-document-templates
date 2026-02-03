@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Folder, FolderOpen, File, ChevronRight, ChevronDown } from 'lucide-react';
+import { Folder, FolderOpen, File, CaretRight, CaretDown } from '@phosphor-icons/react';
 
 interface TreeNode {
     type: 'file' | 'directory';
@@ -17,7 +17,7 @@ const FileTreeNode = ({ node, depth = 0 }: { node: TreeNode; depth?: number }) =
                 className="flex items-center gap-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 rounded px-2 cursor-default transition-colors text-zinc-600 dark:text-zinc-400"
                 style={{ paddingLeft: `${depth * 20 + 8}px` }}
             >
-                <File size={14} className="text-zinc-400" />
+                <File weight="regular" size={14} className="text-zinc-400" />
                 <span className="text-sm font-mono">{node.name}</span>
             </div>
         );
@@ -31,9 +31,9 @@ const FileTreeNode = ({ node, depth = 0 }: { node: TreeNode; depth?: number }) =
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span className="opacity-50 w-4 flex justify-center">
-                    {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                    {isOpen ? <CaretDown size={14} /> : <CaretRight size={14} />}
                 </span>
-                {isOpen ? <FolderOpen size={16} className="text-blue-500" /> : <Folder size={16} className="text-blue-500" />}
+                {isOpen ? <FolderOpen weight="fill" size={16} className="text-blue-500" /> : <Folder weight="fill" size={16} className="text-blue-500" />}
                 <span className="text-sm font-medium">{node.name}</span>
             </div>
 

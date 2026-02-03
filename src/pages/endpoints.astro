@@ -3,7 +3,7 @@ import DocLayout from "../layouts/DocLayout.astro";
 import { Endpoint } from "../components/Endpoint.tsx";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { House, ChevronRight, Server } from "lucide-react";
+import { House, CaretRight, HardDrive } from "@phosphor-icons/react";
 
 const title = "API Endpoints";
 
@@ -31,7 +31,7 @@ for (const file of endpointFiles) {
   <div
     class="h-full flex flex-col p-6 md:p-12 lg:px-16 lg:py-12 pt-20 md:pt-12 max-w-7xl mx-auto w-full"
   >
-    {/* Breadcrumbs */}
+    <!-- Breadcrumbs -->
     <nav
       class="flex items-center space-x-2 text-[13px] text-zinc-500 dark:text-zinc-400 mb-8"
       aria-label="Breadcrumb"
@@ -43,9 +43,9 @@ for (const file of endpointFiles) {
         <House size={14} />
         <span>Home</span>
       </a>
-      <ChevronRight size={14} class="opacity-30" />
+      <CaretRight size={14} className="opacity-30" />
       <span class="opacity-70">Reference</span>
-      <ChevronRight size={14} class="opacity-30" />
+      <CaretRight size={14} className="opacity-30" />
       <span class="text-zinc-900 dark:text-zinc-100 font-semibold">{title}</span
       >
     </nav>
@@ -69,7 +69,7 @@ for (const file of endpointFiles) {
             <section class="animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div class="flex items-center gap-3 mb-6 border-b border-zinc-100 dark:border-zinc-800 pb-4">
                 <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                  <Server size={20} />
+                  <HardDrive size={20} />
                 </div>
                 <div>
                   <h2 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100 italic">
@@ -112,10 +112,8 @@ for (const file of endpointFiles) {
         class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed text-pretty"
       >
         All endpoints except `/login` require an authentication token. Use the
-        `Authorization: Bearer <token
-          >` header to make authenticated requests. The rate limit for the API
-          is 100 requests per minute per IP.
-        </token>
+        `Authorization: Bearer &lt;token&gt;` header to make authenticated
+        requests. The rate limit for the API is 100 requests per minute per IP.
       </p>
     </div>
   </div>

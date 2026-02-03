@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Menu, ChevronRight, ChevronDown, MessageCircle, FolderTree, Server } from 'lucide-react';
+import { X, List, CaretRight, CaretDown, ChatCircle, TreeStructure, HardDrive, GithubLogo } from '@phosphor-icons/react';
 
 interface SidebarNode {
     id: string;
@@ -42,7 +42,7 @@ const SidebarItem = ({ item, activeSlug, depth = 0 }: { item: SidebarNode, activ
                 >
                     {depth > 0 && (
                         <span className="opacity-50">
-                            {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                            {isExpanded ? <CaretDown size={14} /> : <CaretRight size={14} />}
                         </span>
                     )}
                     {/* Only show icon for deeper categories if desired, or just text for top level */}
@@ -93,7 +93,7 @@ export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
                     onClick={() => setIsOpen(true)}
                     className="md:hidden fixed top-4 left-4 z-[60] p-2 rounded-lg bg-white/10 border border-white/10 backdrop-blur-md text-slate-400 hover:text-white transition-all shadow-xl"
                 >
-                    <Menu size={20} />
+                    <List size={20} />
                 </button>
             )}
 
@@ -118,7 +118,7 @@ export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
                                 }`}
                         >
                             <span className="flex items-center justify-center w-5 h-5 rounded bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-sm">
-                                <MessageCircle size={12} />
+                                <ChatCircle size={12} weight="fill" />
                             </span>
                             <span className="font-medium">AI Assistant</span>
                         </a>
@@ -131,7 +131,7 @@ export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
                                 }`}
                         >
                             <span className="flex items-center justify-center w-5 h-5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 shadow-sm">
-                                <FolderTree size={12} />
+                                <TreeStructure size={12} />
                             </span>
                             <span className="font-medium">Structure</span>
                         </a>
@@ -144,9 +144,20 @@ export default function Sidebar({ groupedDocs, activeSlug }: SidebarProps) {
                                 }`}
                         >
                             <span className="flex items-center justify-center w-5 h-5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 shadow-sm">
-                                <Server size={12} />
+                                <HardDrive size={12} />
                             </span>
                             <span className="font-medium">Endpoints</span>
+                        </a>
+                        <a
+                            href="https://github.com/markush0f/ira-document-templates"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2 text-[13.5px] rounded-md transition-all duration-150 mb-0.5 border border-transparent text-sidebar-text hover:text-sidebar-text-active hover:bg-sidebar-bg-active/40 hover:border-sidebar-border"
+                        >
+                            <span className="flex items-center justify-center w-5 h-5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 shadow-sm">
+                                <GithubLogo size={12} weight="fill" />
+                            </span>
+                            <span className="font-medium">Repository</span>
                         </a>
                         <div className="h-px bg-sidebar-border/50 my-2 mx-2"></div>
                     </div>

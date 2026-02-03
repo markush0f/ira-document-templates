@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './Sidebar';
 import ThemeToggle from './ThemeToggle';
 import DocRenderer from './DocRenderer';
-import { Pencil, Save, X, Check, ChevronRight, House } from 'lucide-react';
+import { PencilSimple, FloppyDisk, X, Check, CaretRight, House } from '@phosphor-icons/react';
 
 interface AppShellProps {
     groupedDocs: any[];
@@ -85,7 +85,7 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc, children }: 
                             onClick={() => setIsEditing(true)}
                             className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-primary transition-all shadow-sm group backdrop-blur-md"
                         >
-                            <Pencil size={18} className="group-hover:rotate-12 transition-transform" />
+                            <PencilSimple size={18} className="group-hover:rotate-12 transition-transform" />
                         </button>
                     )}
 
@@ -99,7 +99,7 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc, children }: 
                                     : 'bg-primary text-white hover:bg-primary/90 shadow-primary/20'
                                     }`}
                             >
-                                {showSuccess ? <Check size={18} /> : <Save size={18} />}
+                                {showSuccess ? <Check size={18} /> : <FloppyDisk size={18} />}
                                 <span>{showSuccess ? 'Updated' : isSaving ? 'Saving...' : 'Save Changes'}</span>
                             </button>
                             <button
@@ -122,9 +122,9 @@ export default function AppShell({ groupedDocs, activeSlug, rawDoc, children }: 
                                     <House size={14} />
                                     <span>Home</span>
                                 </a>
-                                <ChevronRight size={14} className="opacity-30" />
+                                <CaretRight size={14} className="opacity-30" />
                                 <span className="opacity-70">Docs</span>
-                                <ChevronRight size={14} className="opacity-30" />
+                                <CaretRight size={14} className="opacity-30" />
                                 <span className="text-sidebar-text-active font-semibold">{liveData.title}</span>
                             </nav>
 

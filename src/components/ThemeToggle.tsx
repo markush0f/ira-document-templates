@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Sun, Moon, Monitor, ChevronDown } from 'lucide-react';
+import { Sun, Moon, Desktop, CaretDown } from '@phosphor-icons/react';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -73,9 +73,9 @@ export default function ThemeToggle() {
     };
 
     const icons: Record<Theme, React.ReactNode> = {
-        light: <Sun className="h-4 w-4" />,
-        dark: <Moon className="h-4 w-4" />,
-        system: <Monitor className="h-4 w-4" />
+        light: <Sun weight="bold" className="h-4 w-4" />,
+        dark: <Moon weight="bold" className="h-4 w-4" />,
+        system: <Desktop weight="bold" className="h-4 w-4" />
     };
 
     return (
@@ -91,7 +91,7 @@ export default function ThemeToggle() {
                     <span className="flex items-center justify-center h-4 w-4 text-slate-500 dark:text-slate-400 group-hover:text-blue-500 transition-colors">
                         {icons[theme]}
                     </span>
-                    <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+                    <CaretDown className={`h-4 w-4 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
             </div>
 
