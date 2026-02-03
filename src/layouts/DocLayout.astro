@@ -1,6 +1,7 @@
 ---
 import { getGroupedDocs } from "../lib/docs";
 import AppShell from "../components/AppShell";
+import Chatbot from "../components/Chatbot";
 import "../styles/global.css";
 
 interface Props {
@@ -70,6 +71,7 @@ const groupedDocs = await getGroupedDocs();
     >
       <slot />
     </AppShell>
+    <Chatbot client:load />
 
     <script>
       // Add Copy Button to Pre blocks
